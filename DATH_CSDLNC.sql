@@ -1,0 +1,142 @@
+CREATE DATABASE DATH_CSDLNC;
+GO
+USE DATH_CSDLNC
+
+SET DATEFORMAT dmy
+SET ARITHABORT, ANSI_PADDING, ANSI_WARNINGS, CONCAT_NULL_YIELDS_NULL, QUOTED_IDENTIFIER, ANSI_NULLS, NOCOUNT ON
+SET NUMERIC_ROUNDABORT, IMPLICIT_TRANSACTIONS, XACT_ABORT OFF
+
+-- 1. Create Tables for SuShiX Restaurant Management System
+
+-- ChiNhanh
+CREATE TABLE ChiNhanh (
+    MaChiNhanh NVARCHAR(10) PRIMARY KEY,
+    TenChiNhanh NVARCHAR(100) NOT NULL,
+    DiaChi NVARCHAR(255) NOT NULL,
+	ThanhPho NVARCHAR(255) NOT NULL,
+    TGMoCua DATETIME NOT NULL,
+    TGDongCua DATETIME NOT NULL,
+    SDT NVARCHAR(15),
+    BaiDoXe BIT
+);
+
+-- MonAn
+CREATE TABLE MonAn (
+    MaMonAn NVARCHAR(10) PRIMARY KEY,
+    TenMon NVARCHAR(100) NOT NULL,
+    GiaHienTai DECIMAL(10,2) NOT NULL,
+	HoTroGiao bit,
+    DanhMuc NVARCHAR(50) NOT NULL
+);
+
+-- KhachHang
+CREATE TABLE KhachHang (
+    MaKhachHang NVARCHAR(13) PRIMARY KEY,
+    HoTen NVARCHAR(100) NOT NULL,
+    SDT NVARCHAR(15) ,
+    Email NVARCHAR(255),
+    CCCD NVARCHAR(20),
+    GioiTinh NVARCHAR(10)
+);
+
+-- BoPhan
+CREATE TABLE BoPhan(
+	MaBoPhan NVARCHAR(10) PRIMARY KEY,
+	TenBoPhan NVARCHAR(50) NOT NULL
+);
+
+-- ThucDon
+CREATE TABLE ThucDon (
+    MaThucDon NVARCHAR(10) PRIMARY KEY,
+    MaChiNhanh NVARCHAR(10) FOREIGN KEY REFERENCES ChiNhanh(MaChiNhanh) NOT NULL,
+	MaMonAn NVARCHAR(10) FOREIGN KEY REFERENCES MonAn(MaMonAn) NOT NULL,
+	TrangThai BIT
+);
+
+-- NhanVien
+CREATE TABLE NhanVien (
+    MaNhanVien NVARCHAR(10) PRIMARY KEY,
+    HoTenNV NVARCHAR(100) NOT NULL,
+    NgaySinh DATETIME NOT NULL,
+    GioiTinh NVARCHAR(10),
+    Luong DECIMAL(10,2),
+    MaBoPhan NVARCHAR(10) FOREIGN KEY REFERENCES BoPhan(MaBoPhan),
+	MaChiNhanh NVARCHAR(10) FOREIGN KEY REFERENCES ChiNhanh(MaChiNhanh)
+);
+
+-- TheThanhVien
+--Drop Table TheThanhVien
+CREATE TABLE TheThanhVien (
+    MaThe NVARCHAR(10) PRIMARY KEY,
+    MaKhachHang NVARCHAR(13) FOREIGN KEY REFERENCES KhachHang(MaKhachHang),
+	MaNhanVien NVARCHAR(10) FOREIGN KEY REFERENCES NhanVien(MaNhanVien),
+    LoaiThe NVARCHAR(20) CHECK (LoaiThe IN ('Member', 'Silver', 'Gold')) NOT NULL,
+    NgayLap DATETIME NOT NULL,
+    DiemTichLuy INT
+);
+
+-- dROP TAbLE ChiNhanhNhanVien
+CREATE TABLE ChiNhanhNhanVien(
+	MaNhanVien NVARCHAR(10) NOT NULL FOREIGN KEY REFERENCES NhanVien(MaNhanVien),
+	MaChiNhanh NVARCHAR(10) NOT NULL FOREIGN KEY REFERENCES ChiNhanh(MaChiNhanh),
+	GHICHUKHDT NVARCHAR(255),
+	NgayVaoLam DATETIME NOT NULL,
+	NgayNghiViec DATETIME
+);
+ALTER TABLE ChiNhanhNhanVien
+ADD CONSTRAINT PK_ChiNhanhNhanVien PRIMARY KEY (MaNhanVien, MaChiNhanh, NgayVaoLam);
+
+-- drop table PhieuDatMon
+CREATE TABLE PhieuDatMon (
+    MaPhieuDatMon NVARCHAR(10) PRIMARY KEY,
+    MaChiNhanh NVARCHAR(10) FOREIGN KEY REFERENCES ChiNhanh(MaChinhanh) NOT NULL,
+    MaNhanVien NVARCHAR(10) FOREIGN KEY REFERENCES NhanVien(MaNhanVien) NOT NULL,
+	NgayDat DATETIME NOT NULL,
+	GioDen DATETIME NOT NULL,
+	NgayLap DATETIME NOT NULL,
+    Ban INT NOT NULL,
+    SoLuongKhach DECIMAL(10,2) NOT NULL,
+	TinhTrangXacNhan BIT NOT NULL,
+	GhiChu NVARCHAR(200)
+);
+
+-- drop table HoaDon
+CREATE TABLE HoaDon(
+	MaHoaDon NVARCHAR(10) PRIMARY KEY,
+	MaPhieuDatMon NVARCHAR(10) FOREIGN KEY REFERENCES PhieuDatMon(MaPhieuDatMon),
+	MaNhanVien NVARCHAR(10) FOREIGN KEY REFERENCES NhanVien(MaNhanVien),
+	MaKhachHang NVARCHAR(13) FOREIGN KEY REFERENCES KhachHang(MaKhachHang),
+	TongTien DECIMAL(10,2),
+	TienGiamGia DECIMAL(10,2),
+	TienThanhToan DECIMAL(10,2),
+	NgayThanhToan DATETIME,
+	PhuongThucThanhToan NVARCHAR(50)
+);
+
+-- drop table DanhGia
+CREATE TABLE DanhGia(
+	MaDanhGia NVARCHAR(10) PRIMARY KEY,
+	MaKhachHang NVARCHAR(13) FOREIGN KEY REFERENCES KhachHang(MaKhachHang),
+	MaHoaDon NVARCHAR(10) FOREIGN KEY REFERENCES HoaDon(MaHoaDon),
+	DiemPhucVu INT,
+	DiemViTri INT,
+	DiemChatLuongMonAn INT,
+	DiemGiaCa INT,
+	DiemKhongGian INT,
+	TGTruyCap DATETIME NOT NULL,
+	BinhLuan NVARCHAR(200),
+);
+
+--  drop table ChiTietPdm
+CREATE TABLE ChiTietPDM (
+    MaChiTietPDM NVARCHAR(10) PRIMARY KEY,
+    MaPhieuDatMon NVARCHAR(10) FOREIGN KEY REFERENCES PhieuDatMon(MaPhieuDatMon),
+    MaMonAn NVARCHAR(10) FOREIGN KEY REFERENCES MonAn(MaMonAn),
+	DatTruoc bit,
+    SoLuong INT NOT NULL
+);
+
+
+
+
+

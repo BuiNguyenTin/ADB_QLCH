@@ -1,0 +1,10 @@
+C:\Users\buing\Desktop\CSDL\ADB_Group15\ADB_Group15\bin\Debug\ADB_Group15.exe.config
+C:\Users\buing\Desktop\CSDL\ADB_Group15\ADB_Group15\bin\Debug\ADB_Group15.exe
+C:\Users\buing\Desktop\CSDL\ADB_Group15\ADB_Group15\bin\Debug\ADB_Group15.pdb
+C:\Users\buing\Desktop\CSDL\ADB_Group15\ADB_Group15\obj\Debug\ADB_Group15.csproj.AssemblyReference.cache
+C:\Users\buing\Desktop\CSDL\ADB_Group15\ADB_Group15\obj\Debug\ADB_Group15.DangNhap.resources
+C:\Users\buing\Desktop\CSDL\ADB_Group15\ADB_Group15\obj\Debug\ADB_Group15.Properties.Resources.resources
+C:\Users\buing\Desktop\CSDL\ADB_Group15\ADB_Group15\obj\Debug\ADB_Group15.csproj.GenerateResource.cache
+C:\Users\buing\Desktop\CSDL\ADB_Group15\ADB_Group15\obj\Debug\ADB_Group15.csproj.CoreCompileInputs.cache
+C:\Users\buing\Desktop\CSDL\ADB_Group15\ADB_Group15\obj\Debug\ADB_Group15.exe
+C:\Users\buing\Desktop\CSDL\ADB_Group15\ADB_Group15\obj\Debug\ADB_Group15.pdb
